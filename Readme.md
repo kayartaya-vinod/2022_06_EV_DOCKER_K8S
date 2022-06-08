@@ -47,3 +47,5 @@
     -   the flag `-f` focefully removes the running/stopped container with id _61efcdde9d5f_
 -   `docker logs 61efcdde9d5f`
     -   displays the console output produced on the STDOUT of the container
+
+![](./concepts2.dio.png)
