@@ -49,3 +49,78 @@
     -   displays the console output produced on the STDOUT of the container
 
 ![](./concepts2.dio.png)
+![](./concepts3.dio.png)
+![](./concepts4.dio.png)
+
+### To create an Oracle XE container
+
+```
+docker run --detach \
+    --publish 1521:1521 \
+    --publish 8080:8080 \
+    --env ORACLE_ALLOW_REMOTE=true \
+    --name oraclexe11g \
+    oracleinanutshell/oracle-xe-11g
+```
+
+### To create a Mongodb server container
+
+```
+docker run -d \
+    -p 27017:27017 \
+    --name mongo-server \
+    -v mongodb_data:/data/db \
+    mongo
+```
+
+### To execute the Mongosh CLI on the above container
+
+```
+docker exec -it mongo-server mongosh
+```
+
+### Few useful mongodb commands
+
+```
+db // displays the current database
+show dbs // displays all existing databases
+use ev_db // creates a new db and switches to the same
+show collections // displays the existing collections in the current database
+// collection --> table in rdbms
+// document --> row of a table
+db.persons.insertOne({name: 'Vinod', age: 48, email: 'vinod@vinod.co'})
+db.persons.insertOne({name: 'Vinod', age: 48, email: 'vinod@vinod.co', address: {city: 'Bangalore', state: 'Karnataka'}})
+
+db.persons.find() // select * from persons
+db.persons.find({}, {name: true, email: true, _id: false}) // select name, email from persons
+
+```
+
+### To create a Mongo web client that connects to Mongo server (two containers communicating)
+
+```
+docker run -d -p 8081:8081 \
+    -e ME_CONFIG_MONGODB_SERVER=mongo-server \
+    --link mongo-server \
+    --name mongo-web-client \
+    mongo-express
+```
+
+#### Linking two containers via network
+
+```
+
+docker network create mongo_network
+
+docker network connect mongo_network mongo-server
+
+docker run -d -p 8081:8081 \
+    -e ME_CONFIG_MONGODB_SERVER=mongo-server \
+    --network mongo_network \
+    --name mongo-web-client \
+    mongo-express
+
+docker inspect mongo_network
+```
+
+![](./concepts5.dio.png)
