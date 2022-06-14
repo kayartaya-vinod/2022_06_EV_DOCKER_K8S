@@ -124,3 +124,16 @@ docker inspect mongo_network
 ```
 
 ![](./concepts5.dio.png)
+
+### Create a custom image using Dockerfile in the current working directory:
+
+```
+docker build -t learnwithvinod/customer-service:latest .
+```
+
+### Push your own docker image to your own docker hub repository (learnwithvinod)
+
+```
+docker login
+docker push learnwithvinod/customer-service:latest
+```

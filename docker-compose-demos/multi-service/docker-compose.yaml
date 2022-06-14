@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  mysql-service:
+    image: mysql
+    container_name: mysql-container
+    environment:
+      - "MYSQL_ROOT_PASSWORD=Welcome#123"
+    ports:
+      - "3306:3306"
+    volumes:
+      - "mysql_data:/var/lib/mysql"
+
+  mongodb-service:
+    image: mongo
+    ports:
+      - "27017:27017"
+    container_name: mongodb-container
+    volumes:
+      - "mongodb_data:/data/db"
+
+volumes:
+  mysql_data:
+    external: true
+  mongodb_data:
+    external: true
